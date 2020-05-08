@@ -107,7 +107,7 @@ public class BracketGeneratorGUI extends Application {
 		});
 
 		//initialize stage and scene
-		primaryStage.setTitle("Lua Bracket Helper v 0.2");
+		primaryStage.setTitle("Lua Bracket Helper v0.3");
 
 		Scene scene = new Scene(wrap, 1280, 720);
 		scene.getStylesheets().add(getClass().getResource("bracketstyle.css").toExternalForm());
