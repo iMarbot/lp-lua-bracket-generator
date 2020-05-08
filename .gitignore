@@ -2,3 +2,4 @@ bin
 out
 .settings
 /.project
+launch4j.xml
