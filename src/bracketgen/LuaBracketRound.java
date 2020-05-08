@@ -539,12 +539,12 @@ class LuaBracketRound extends VBox {
 				String detailskey = roundkey + "G" + (i + 1 + offset);
 				String team1 = teams.get(2 * i);
 				String team2 = teams.get(2 * i + 1);
-				s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket/{{{" + team1
-						+ "team}}}}}|{{#if:{{{" + team1 + "|}}}|{{TeamBracket/" + game
+				s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket|{{{" + team1
+						+ "team}}}}}|{{#if:{{{" + team1 + "|}}}|{{TeamBracket|" + game
 						+ "}}<span style=\"vertical-align:-1px;\">{{{" + team1 + "}}}</span>|{{#if:{{{" + team1
 						+ "literal|}}}|{{{" + team1 + "literal}}}|&nbsp;}}}}}}\n";
-				s += "|" + gamekey + "_p2box={{#if:{{{" + team2 + "team|}}}|{{TeamBracket/{{{" + team2
-						+ "team}}}}}|{{#if:{{{" + team2 + "|}}}|{{TeamBracket/" + game
+				s += "|" + gamekey + "_p2box={{#if:{{{" + team2 + "team|}}}|{{TeamBracket|{{{" + team2
+						+ "team}}}}}|{{#if:{{{" + team2 + "|}}}|{{TeamBracket|" + game
 						+ "}}<span style=\"vertical-align:-1px;\">{{{" + team2 + "}}}</span>|{{#if:{{{" + team2
 						+ "literal|}}}|{{{" + team2 + "literal}}}|&nbsp;}}}}}}\n";
 				s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
@@ -564,9 +564,9 @@ class LuaBracketRound extends VBox {
 			for (int i = 0; i < matchCount; i++) {
 				String gamekey = roundkey + "G" + (i + 1);
 				String team1 = teams.get(i);
-				s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket/{{{" + team1
+				s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket|{{{" + team1
 						+ "team}}}}}|{{#if:{{{" + team1
-						+ "|}}}|{{TeamBracket/rocketleague}}}}<span style=\"vertical-align:-1px;\">{{{" + team1
+						+ "|}}}|{{TeamBracket|" + game + "}}}}<span style=\"vertical-align:-1px;\">{{{" + team1
 						+ "|}}}</span>|{{#if:{{{" + team1 + "literal|}}}|{{{" + team1 + "literal}}}|&nbsp;}}}}\n|"
 						+ gamekey + "_p1score={{{" + team1 + "score|}}}\n";
 			}
@@ -718,12 +718,12 @@ class LuaBracketFinal extends LuaBracketRound {
 			String team1 = roundkey + "W1";
 			String team2 = roundkey + "W2";
 			//s += "|" + roundkey + "={{{" + roundkey + "|" + this_list.get(this_round + 1).getRoundNameProperty().get() + "}}}";
-			s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket/{{{" + team1
-					+ "team}}}}}|{{#if:{{{" + team1 + "|}}}|{{TeamBracket/" + game
+			s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket|{{{" + team1
+					+ "team}}}}}|{{#if:{{{" + team1 + "|}}}|{{TeamBracket|" + game
 					+ "}}<span style=\"vertical-align:-1px;\">{{{" + team1 + "}}}</span>|{{#if:{{{" + team1
 					+ "literal|}}}|{{{" + team1 + "literal}}}|&nbsp;}}}}}}\n";
-			s += "|" + gamekey + "_p2box={{#if:{{{" + team2 + "team|}}}|{{TeamBracket/{{{" + team2
-					+ "team}}}}}|{{#if:{{{" + team2 + "|}}}|{{TeamBracket/" + game
+			s += "|" + gamekey + "_p2box={{#if:{{{" + team2 + "team|}}}|{{TeamBracket|{{{" + team2
+					+ "team}}}}}|{{#if:{{{" + team2 + "|}}}|{{TeamBracket|" + game
 					+ "}}<span style=\"vertical-align:-1px;\">{{{" + team2 + "}}}</span>|{{#if:{{{" + team2
 					+ "literal|}}}|{{{" + team2 + "literal}}}|&nbsp;}}}}}}\n";
 			s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
