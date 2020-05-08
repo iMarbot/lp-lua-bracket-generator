@@ -494,8 +494,8 @@ class LuaBracketRound extends VBox {
 			if (!isInLowerBracket) {
 				s += "{{#invoke:Bracket|BracketStart\n" + "|column-width={{{column-width|180}}}\n"
 						+ "|column-width-finals={{{column-width|180}}}\n" + "|columns="
-						+ (ROUNDS_UPPER.size() + (de ? 1 : 0)) + (de ? "|debracket=true\n" : "") + "\n}}\n"
-						+ "{{#invoke:WinnersBracketStructure|WinnersBracketStructure\n" + "|cell-type=team\n"
+						+ (ROUNDS_UPPER.size() + (de ? 1 : 0)) + (de ? "|debracket=true\n" : "") + "}}\n"
+						+ "{{#invoke:WinnersBracketStructure|WinnersBracketStructure\n"
 						+ "|column-width={{{column-width|180}}}\n" + "|space-width={{{space-width|20}}}\n"
 						+ "|score-width={{{score-width|21}}}\n" + "|cell-type=team\n"
 						+ "|columns=" + (ROUNDS_UPPER.size()) + "\n\n";
@@ -513,7 +513,7 @@ class LuaBracketRound extends VBox {
 				s += "{{#invoke:LosersBracketStructure|LosersBracketStructure\n"
 						+ "|column-width={{{column-width|180}}}\n" + "|space-width={{{space-width|20}}}\n"
 						+ "|score-width={{{score-width|21}}}\n" + "|cell-type=team\n"
-						+ "|columns=" + (ROUNDS_LOWER.size()) + "\n\n";
+						+ "|columns=" + (ROUNDS_LOWER.size() - 1) + "\n\n";
 				for (int i = 0; i < ROUNDS_LOWER.size() - 1; i++) {
 					String roundName = ROUNDS_LOWER.get(i).getRoundNameProperty().get();
 					if (roundName.equals("Round title")) {
