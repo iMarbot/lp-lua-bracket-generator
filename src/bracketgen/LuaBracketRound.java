@@ -468,6 +468,18 @@ class LuaBracketRound extends VBox {
 
 	}
 
+	public SimpleStringProperty getRoundNameProperty() {
+		return roundNameProperty;
+	}
+
+	public int getMatchCount() {
+		return matchCount;
+	}
+
+	public String getType() {
+		return type;
+	}
+
 	public String toWikiCode(int offset) {
 		String s = "";
 		int this_round = 0;
@@ -480,31 +492,48 @@ class LuaBracketRound extends VBox {
 
 		if (this_round == 0) {
 			if (!isInLowerBracket) {
-				s += "{{#invoke:Bracket|BracketStart\n" + "|cell-type=team\n" + "|column-width={{{column-width|180}}}\n"
+				s += "{{#invoke:Bracket|BracketStart\n" + "|column-width={{{column-width|180}}}\n"
 						+ "|column-width-finals={{{column-width|180}}}\n" + "|columns="
 						+ (ROUNDS_UPPER.size() + (de ? 1 : 0)) + (de ? "|debracket=true\n" : "") + "\n}}\n"
 						+ "{{#invoke:WinnersBracketStructure|WinnersBracketStructure\n" + "|cell-type=team\n"
 						+ "|column-width={{{column-width|180}}}\n" + "|space-width={{{space-width|20}}}\n"
-						+ "|score-width={{{score-width|21}}}\n" + "|columns=" + (ROUNDS_UPPER.size()) + "\n\n";
+						+ "|score-width={{{score-width|21}}}\n" + "|cell-type=team\n"
+						+ "|columns=" + (ROUNDS_UPPER.size()) + "\n\n";
+				for (int i = 0; i < ROUNDS_UPPER.size(); i++) {
+					String roundName = ROUNDS_UPPER.get(i).getRoundNameProperty().get();
+					if (roundName.equals("Round title")) {
+						roundName = "";
+					}
+					String roundKey = "R" + (i + 1);
+					s += "|" + roundKey + "={{{" + roundKey + "|" + roundName + "}}}" + "|" + roundKey + "matches=" + ROUNDS_UPPER.get(i).getMatchCount()
+							+ "|" + roundKey + "type=" + ROUNDS_UPPER.get(i).getType() + "\n";
+				}
+				s += "\n";
 			} else {
-				s += "{{#invoke:LosersBracketStructure|LosersBracketStructure\n" + "|cell-type=team\n"
+				s += "{{#invoke:LosersBracketStructure|LosersBracketStructure\n"
 						+ "|column-width={{{column-width|180}}}\n" + "|space-width={{{space-width|20}}}\n"
-						+ "|score-width={{{score-width|21}}}\n" + "|columns=" + (ROUNDS_LOWER.size() - 1) + "\n\n";
+						+ "|score-width={{{score-width|21}}}\n" + "|cell-type=team\n"
+						+ "|columns=" + (ROUNDS_LOWER.size()) + "\n\n";
+				for (int i = 0; i < ROUNDS_LOWER.size() - 1; i++) {
+					String roundName = ROUNDS_LOWER.get(i).getRoundNameProperty().get();
+					if (roundName.equals("Round title")) {
+						roundName = "";
+					}
+					String roundKey = "R" + (i + 1);
+					String roundKeyL = "L" + (i + 1);
+					s += "|" + roundKey + "={{{" + roundKeyL + "|" + roundName + "}}}" + "|" + roundKey + "matches=" + ROUNDS_LOWER.get(i).getMatchCount()
+							+ "|" + roundKey + "type=" + ROUNDS_LOWER.get(i).getType() + "\n";
+				}
+				s += "\n";
 			}
 		}
 
-		String roundname = roundNameProperty.get();
-		if (roundname.equals("Round title")) {
-			roundname = "";
-		}
-
 		String roundkey = "R" + (this_round + 1);
-		s += "|" + roundkey + "={{{" + roundkey + "|" + roundname + "}}}" + name + "|" + roundkey + "matches=" + matchCount
-				+ "|" + roundkey + "type=" + type + "\n";
 
 		ArrayList<String> teams = isInLowerBracket ? ROUNDS_KEYS_LOWER.get(this_round) : ROUNDS_KEYS_UPPER.get(this_round);
 
 		if (type.equals(types[0]) || type.equals(types[1])) {
+			s += "";
 			for (int i = 0; i < matchCount; i++) {
 				String gamekey = roundkey + "G" + (i + 1);
 				String detailskey = roundkey + "G" + (i + 1 + offset);
@@ -521,12 +550,15 @@ class LuaBracketRound extends VBox {
 				s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
 				s += "|" + gamekey + "_p2score={{{" + team2 + "score|}}}\n";
 				s += "|" + gamekey + "_win={{#if:{{{" + team1 + "win|}}}|1|{{#if:{{{" + team2 + "win|}}}|2|}}}}\n";
-				s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey
-						+ "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|190}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n|team1={{{"
-						+ team1 + "team|}}}\n|team2={{{" + team2 + "team|}}}\n|team1" + game + "={{{" + team1
-						+ "|}}}\n|team2" + game + "={{{" + team2 + "|}}}\n|team1literal={{{" + team1
-						+ "literal|}}}\n|team2literal={{{" + team2 + "literal|}}}\n|details={{{" + detailskey
-						+ "details|}}}\n}}</div></div>}}\n";
+				s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey + "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|180}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n"
+				+ "\t\t\t\t|team1={{{" + team1 + "team|}}}\n"
+				+ "\t\t\t\t|team2={{{" + team2 + "team|}}}\n"
+				+ "\t\t\t\t|team1" + game + "={{{" + team1 + "|}}}\n"
+				+ "\t\t\t\t|team2" + game + "={{{" + team2 + "|}}}\n"
+				+ "\t\t\t\t|team1literal={{{" + team1 + "literal|}}}\n"
+				+ "\t\t\t\t|team2literal={{{" + team2 + "literal|}}}\n"
+				+ "\t\t\t\t|details={{{" + detailskey + "details|}}}\n"
+				+ "\t\t\t\t}}</div></div>}}\n";
 			}
 		} else if (type.equals("qualified")) {
 			for (int i = 0; i < matchCount; i++) {
@@ -540,9 +572,10 @@ class LuaBracketRound extends VBox {
 			}
 		}
 
-		if (this_round == ROUNDS_UPPER.size() - 1) {
+		if (this_round == ROUNDS_UPPER.size() - 1)
 			s += "}}\n";
-		}
+		else
+			s += "\n";
 
 		return s;
 	}
@@ -673,16 +706,18 @@ class LuaBracketFinal extends LuaBracketRound {
 			}
 		}
 		if (type.equals(types[1])) {
-			s += "{{#invoke:Bracket|DESectionEnd}}\n" + "{{#invoke:Bracket|GrandFinals\n" + "|cell-type=team\n"
+			s += "{{#invoke:Bracket|DESectionEnd}}\n" + "{{#invoke:Bracket|GrandFinals\n"
 					+ "|column-width={{{column-width|180}}}\n" + "|space-width={{{space-width|20}}}\n"
 					+ "|score-width={{{score-width|21}}}\n" + "|columns=" + (ROUNDS_LOWER.size()) + "\n"
-					+ "|offset=71\n" + "|line-height=40\n";
+					+ "|offset=71\n" + "|line-height=40\n"
+					+ "|cell-type=team\n\n";
 
 			String roundkey = "R" + (this_round + 1);
 			String gamekey = roundkey + "G1";
 			String detailskey = roundkey + "G1";
 			String team1 = roundkey + "W1";
 			String team2 = roundkey + "W2";
+			//s += "|" + roundkey + "={{{" + roundkey + "|" + this_list.get(this_round + 1).getRoundNameProperty().get() + "}}}";
 			s += "|" + gamekey + "_p1box={{#if:{{{" + team1 + "team|}}}|{{TeamBracket/{{{" + team1
 					+ "team}}}}}|{{#if:{{{" + team1 + "|}}}|{{TeamBracket/" + game
 					+ "}}<span style=\"vertical-align:-1px;\">{{{" + team1 + "}}}</span>|{{#if:{{{" + team1
@@ -694,12 +729,15 @@ class LuaBracketFinal extends LuaBracketRound {
 			s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
 			s += "|" + gamekey + "_p2score={{{" + team2 + "score|}}}\n";
 			s += "|" + gamekey + "_win={{#if:{{{" + team1 + "win|}}}|1|{{#if:{{{" + team2 + "win|}}}|2|}}}}\n";
-			s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey
-					+ "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|190}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n|team1={{{"
-					+ team1 + "team|}}}\n|team2={{{" + team2 + "team|}}}\n|team1" + game + "={{{" + team1
-					+ "|}}}\n|team2" + game + "={{{" + team2 + "|}}}\n|team1literal={{{" + team1
-					+ "literal|}}}\n|team2literal={{{" + team2 + "literal|}}}\n|details={{{" + detailskey
-					+ "details|}}}\n}}</div></div>}}\n";
+			s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey + "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|180}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n"
+					+ "\t\t\t\t|team1={{{" + team1 + "team|}}}\n"
+					+ "\t\t\t\t|team2={{{" + team2 + "team|}}}\n"
+					+ "\t\t\t\t|team1" + game + "={{{" + team1 + "|}}}\n"
+					+ "\t\t\t\t|team2" + game + "={{{" + team2 + "|}}}\n"
+					+ "\t\t\t\t|team1literal={{{" + team1 + "literal|}}}\n"
+					+ "\t\t\t\t|team2literal={{{" + team2 + "literal|}}}\n"
+					+ "\t\t\t\t|details={{{" + detailskey + "details|}}}\n"
+					+ "\t\t\t\t}}</div></div>}}\n";
 
 			s += "}}\n";
 		}
