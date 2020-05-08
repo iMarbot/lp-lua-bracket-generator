@@ -521,7 +521,7 @@ class LuaBracketRound extends VBox {
 				s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
 				s += "|" + gamekey + "_p2score={{{" + team2 + "score|}}}\n";
 				s += "|" + gamekey + "_win={{#if:{{{" + team1 + "win|}}}|1|{{#if:{{{" + team2 + "win|}}}|2|}}}}\n";
-				s += "|" + gamekey + "_details={{#if:{{{" + detailskey
+				s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey
 						+ "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|190}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n|team1={{{"
 						+ team1 + "team|}}}\n|team2={{{" + team2 + "team|}}}\n|team1" + game + "={{{" + team1
 						+ "|}}}\n|team2" + game + "={{{" + team2 + "|}}}\n|team1literal={{{" + team1
@@ -694,7 +694,7 @@ class LuaBracketFinal extends LuaBracketRound {
 			s += "|" + gamekey + "_p1score={{{" + team1 + "score|}}}\n";
 			s += "|" + gamekey + "_p2score={{{" + team2 + "score|}}}\n";
 			s += "|" + gamekey + "_win={{#if:{{{" + team1 + "win|}}}|1|{{#if:{{{" + team2 + "win|}}}|2|}}}}\n";
-			s += "|" + gamekey + "_details={{#if:{{{" + detailskey
+			s += "|" + gamekey + "_zdetails={{#if:{{{" + detailskey
 					+ "details|}}}|<div class=\"bracket-popup-wrapper bracket-popup-team\" style=\"margin-left:{{{column-width|190}}}px;\"><div class=\"bracket-popup\">{{BracketMatchTeams|\n|team1={{{"
 					+ team1 + "team|}}}\n|team2={{{" + team2 + "team|}}}\n|team1" + game + "={{{" + team1
 					+ "|}}}\n|team2" + game + "={{{" + team2 + "|}}}\n|team1literal={{{" + team1
